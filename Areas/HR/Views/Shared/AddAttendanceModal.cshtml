@@ -1,0 +1,58 @@
+﻿
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Add Attendance</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                @using (Html.BeginForm("UpdateUser", "Home"))
+                {
+                    <div class="form-group">
+                        <label for="mDate" class="col-form-label">Date:</label>
+                        <input type="Date" class="form-control" id="mDate" name="mDate">
+                    </div>
+                    <div class="form-group">
+                        <label for="mFromTime" class="col-form-label">From Time:</label>
+                        <input type="time" class="form-control" id="mFromTime" name="mFromTime">
+                    </div>
+                    <div class="form-group">
+                        <label for="mToTime" class="col-form-label">To Time:</label>
+                        <input type="time" class="form-control" id="mToTime" name="mToTime">
+                    </div>                   
+                }
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button onclick="updateAttend()" type="submit" class="btn btn-primary" data-dismiss="modal"> Update</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function updateAttend() {
+
+        var fData = new FormData();
+        var mDate = document.getElementById('mDate').value;
+        var mFromTime = document.getElementById('mFromTime').value;
+        var mToTime = document.getElementById('mToTime').value;
+       
+
+        fData.append("mDate", mDate);
+        fData.append("mFromTime", mFromTime);        
+        fData.append("mToTime", mToTime);        
+
+        $.ajax({
+            type: 'post',
+            url: '/HR/Home/AddTodayAttendance',
+            data: fData,
+            processData: false,
+            contentType: false,
+            success: function (e) {}
+        });
+    }
+    
+</script>

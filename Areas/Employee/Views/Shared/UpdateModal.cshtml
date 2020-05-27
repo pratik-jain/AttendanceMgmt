@@ -1,0 +1,82 @@
+﻿
+<div class="modal fade" id="profileModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Update User</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                @using (Html.BeginForm("UpdateProfile", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                {
+                    <div class="form-group">
+                        <label for="uUserName" class="col-form-label">UserName:</label>
+                        <input type="text" class="form-control" id="uUserName" name="uUserName">
+                    </div>
+                    <div class="form-group">
+                        <label for="uEmail" class="col-form-label">Email:</label>
+                        <input type="text" class="form-control" id="uEmail" name="uEmail">
+                    </div>
+                    <div class="form-group">
+                        <label for="uPassword" class="col-form-label">New Password:</label>
+                        <input type="password" class="form-control" id="uPassword" name="uPassword">
+                    </div>
+                    <div class="form-group">
+                        <label for="uAddress" class="col-form-label">Address:</label>
+                        <textarea class="form-control" id="uAddress" name="uAddress"></textarea>
+                    </div>                   
+                }
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button onclick="updateProfile()" type="submit" class="btn btn-primary"  data-dismiss="modal"  > Update</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+
+    $(document).ready(function () {                                
+        $.ajax({
+        type: 'GET',
+        url: '/Employee/Home/GetUserDetail',            
+        datatype: 'json',
+        success: function (data) {
+            $("#uUserName").val(data[0].UserName);
+            $("#uEmail").val(data[0].Email);  
+            $("#uAddress").val(data[0].Address);  
+        },
+        error: function (xhr, status, error) {
+            console.log(xhr.responseText);                                            
+            }
+        });         
+        $("#uUserName").attr('readonly', true);   
+       
+    });
+
+    function updateProfile() {
+       
+        
+        var fData = new FormData();        
+        var uEmail = document.getElementById('uEmail').value;
+        var uPassword = document.getElementById('uPassword').value;
+        var uAddress = document.getElementById('uAddress').value;
+        
+        fData.append("uEmail", uEmail);
+        fData.append("uPassword", uPassword);       
+        fData.append("uAddress", uAddress);                       
+
+        $.ajax({
+            type: 'post',
+            url: '/Employee/Home/UpdateProfile',
+            data: fData,
+            processData: false,
+            contentType: false,
+            success: function (e) {}
+        });
+    }
+
+   
+</script>

@@ -1,0 +1,57 @@
+﻿
+<div class="modal fade" id="AddLeave" tabindex="-1" role="dialog" aria-labelledby="AddLeaveLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="AddLeaveLabel">Add Attendance</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                @using (Html.BeginForm("UpdateUser", "Home"))
+                {
+                    <div class="form-group">
+                        <label for="mFromDate" class="col-form-label">From Date:</label>
+                        <input type="Date" class="form-control" id="mFromDate" name="mFromDate">
+                    </div>
+                    <div class="form-group">
+                        <label for="mToDate" class="col-form-label">To Date:</label>
+                        <input type="Date" class="form-control" id="mToDate" name="mToDate">
+                    </div>
+                    <div class="form-group">
+                        <label for="mReason" class="col-form-label">Reason For Leave:</label>
+                        <textarea class="form-control" id="mReason" name="mReason"></textarea>
+                    </div>
+                }
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button onclick="update()" type="submit" class="btn btn-primary" data-dismiss="modal"> Apply</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function update() {
+
+        var fData = new FormData();
+        var mReason = document.getElementById('mReason').value;
+        var mFromDate = document.getElementById('mFromDate').value;
+        var mToDate = document.getElementById('mToDate').value;
+
+        fData.append("mReason", mReason);
+        fData.append("mFromDate", mFromDate);
+        fData.append("mToDate", mToDate);
+
+        $.ajax({
+            type: 'post',
+            url: '/Employee/Home/AddLeave',
+            data: fData,
+            processData: false,
+            contentType: false,
+            success: function (e) {}
+        });
+    }
+
+</script>

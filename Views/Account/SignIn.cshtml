@@ -1,0 +1,21 @@
+﻿@model AttendanceMgmt.ViewModels.vUser
+@{
+    ViewBag.Title = "SignIn";    
+}
+<link rel="stylesheet" href="~/StyleSheet/SignIn.css" type="text/css" />
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="wrapper fadeInDown">
+        <div id="formContent">
+            @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @class = "fadeIn second",  @placeholder = "UserName", @id = "login" } })
+            @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "fadeIn third", @placeholder = "Password", @id = "password" } })
+
+            <input type="submit" class="fadeIn fourth" value="Log In">          
+
+        </div>
+    </div>
+}
+
+
+

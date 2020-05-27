@@ -1,0 +1,98 @@
+﻿@{
+    //var userName = Session["UserName"];    
+    //byte[] img = (byte[])Session["ProfilePhoto"];
+    //var profilePhoto = "data:image/png;base64," + Convert.ToBase64String(img, 0, img.Length);        
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - AttendanceMgmt</title>
+    <script src="~/Scripts/jquery-3.3.1.min.js"></script>
+    <link rel="stylesheet" href="~/Content/bootstrap.css" />
+</head>
+<body>
+    <div>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item @(ViewContext.RouteData.Values["Action"].ToString()=="Home" ? "active": "" )">
+                        <a class="nav-link" href="/Admin/Home/home">Home <span class="sr-only">(current)</span></a>
+                    </li>
+
+                    <li class="nav-item dropdown @(ViewContext.RouteData.Values["Action"].ToString().Contains("Employee") ? "active": "" )">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Employees
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="/Admin/AddUser/AddEmployee">Add Employee</a>
+                            <a class="dropdown-item" href="#">Another action</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#">Something else here</a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown @(ViewContext.RouteData.Values["Action"].ToString().Contains("Hr") ? "active": "" )">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            HRs
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="/Admin/AddUser/AddHr">Add HR</a>
+                            <a class="dropdown-item" href="#">Another action</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#">Something else here</a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown @(ViewContext.RouteData.Values["Action"].ToString().Contains("Holiday") ? "active": "" )">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Holiday
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#Holiday">Add Holiday</a>
+                            <a class="dropdown-item" href="/Admin/Holiday/Holiday">View Holidays</a>
+                        </div>
+                    </li>
+
+                </ul>
+                <form class="form-inline my-2 my-lg-0">
+                    <img id="profilePhoto" alt="abc" style="width:40px;height:40px;border-radius:40%;border-color:black;" />
+                    &nbsp;&nbsp;<h3 id="name" data-toggle="modal" data-target="#profileModal" style="color:white;"></h3>&nbsp;&nbsp;
+                    <a class="btn btn-danger" type="submit" href="/Account/LogOut">LogOut</a>
+                </form>
+            </div>
+        </nav>
+    </div>
+    @{
+        Html.RenderPartial("AddHolidayModal");
+        Html.RenderPartial("UpdateProfileModal");
+    }
+    <div>
+        @RenderBody()
+    </div>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="~/Scripts/umd/popper.min.js"></script>
+
+    <script>
+        $(document).ready(function () {            
+            $.ajax({
+                type: 'GET',
+                url: '/Admin/Home/GetUserDetail',
+                datatype: 'json',
+                success: function (data) {
+                    $("#name").text(data[0].UserName);
+                    //console.log(data[0].ProfilePhoto);
+                   // console.log(data);
+                    $("#profilePhoto").attr('src', 'data:image/png;base64,' + data[0].ProfilePhoto);
+                },
+                error: function (xhr, status, error) {
+                    console.log(xhr.responseText);
+                    }
+            }); 
+         });
+    </script>
+</body>
+</html>

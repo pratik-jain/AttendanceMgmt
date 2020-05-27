@@ -1,0 +1,50 @@
+﻿@model IEnumerable<AttendanceMgmt.ViewModels.vDateMonthAttendance>
+@{
+    ViewBag.Title = "HR Home";
+    List<int> listDate = new List<int>();
+}
+<style>
+    table, th, td {
+        border: 1px solid black;
+    }
+</style>
+<h2>HR This Month Attendance - Home</h2>
+
+<div class="container">
+    <div class="row">
+        @if (Model != null)
+        {
+            foreach (var i in Model)
+            {
+                listDate.Add(Convert.ToInt32(i.Date));
+            }
+        }
+
+        @for (int x = 1; x <= 31; x++)
+        {
+            <div class="col-md-2">
+                <div id="box">
+                    @x
+                    @if (listDate.Contains(x))
+                    {
+                        <h3>Yes</h3>
+                    }
+                    else
+                    {
+                        <h3>No</h3>
+                    }
+                </div>
+            </div>
+        }
+    </div>
+</div>  
+
+<style>
+    #box{
+        height:80px;
+        width:120px;
+        border-radius:5px 4px;
+        box-shadow:10px 10px 8px #888888;
+        background-color:orange;
+    }
+</style>

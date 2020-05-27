@@ -1,0 +1,133 @@
+﻿
+@{
+    ViewBag.Title = "EmployeeLeaves";
+}
+
+<h2>EmployeeLeaves</h2>
+
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.21/datatables.min.css" />
+
+<select id="month" name="month">
+    <option>January</option>
+    <option>February</option>
+    <option>March</option>
+    <option>April</option>
+    <option>May</option>
+    <option>June</option>
+    <option>July</option>
+    <option>August</option>
+    <option>September</option>
+    <option>October</option>
+    <option>November</option>
+    <option>December</option>
+</select>
+<table id="tbAllUsers" class="table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>LeaveId</th>
+            <th>UserId</th>
+            <th>From Date</th>
+            <th>ToDate</th>           
+            <th>Approve</th>  
+            <th>Reason</th>
+            <th>Delete</th>
+            
+        </tr>
+    </thead>
+</table>
+<script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.21/datatables.min.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        var date = new Date();
+        var month = date.toLocaleString('default', { month: 'long' });
+        $("#month").val(month);
+            var tb = $("#tbAllUsers").dataTable({
+                "processing": true,
+                "pageLength": 10,
+                "ajax": {
+                    "url": "/HR/Employee/GetEmployeeLeaves?month=" + month,
+                    "type": "GET",
+                    "datatype": "json"
+                },
+                "columns": [
+                    { "data": "LeaveId", "name": "LeaveId" },
+                    { "data": "UserId", "name": "UserId" },
+                    { "data": "FromDate", "name": "FromDate" },
+                    { "data": "ToDate", "name": "ToDate" },
+                    { "data": "IsApproved", "name": "AprrovedBy" },
+                    { "data": "Reason", "name": "Reason" },
+                    {"data":null}
+                ],
+                "aoColumnDefs": [
+                    {
+                        "aTargets": [4],
+                        "mRender": function (data, type, full) {
+                            if (data == true) {
+                                return "Approved by";
+                            }
+                            else if (data == false) {
+                                console.log("s" + data + full.ApprovedBy);
+                               return "Rejected by"+full.ApprovedBy;
+                            }
+                            else {
+                                 return '<a href="/HR/Employee/ApproveLeave?LeaveId=' + full.LeaveId + '&EmpId=' + full.UserId + '">Approve it</a>&nbsp;/<a href="/HR/Employee/RejectLeave?LeaveId=' + full.LeaveId + '&EmpId=' + full.UserId + '">Reject it</a>';
+                            }
+                        }
+                    },
+                    {
+                        "aTargets": [-1],
+                        "mRender": function (data, type, full) {
+                            return '<a href="/HR/Employee/DeleteLeave?LeaveId=' + full.LeaveId + '"  class="btn btn-danger">Delete</a>';
+                        }
+                    }
+                ]
+            });
+          $("#month").change(function () {
+            month = $(this).children("option:selected").val();
+            tb.fnClearTable();
+              tb.fnDestroy();
+                $("#tbAllUsers").dataTable({
+                "processing": true,
+                "pageLength": 10,
+                "ajax": {
+                    "url": "/HR/Employee/GetEmployeeLeaves?month=" + month,
+                    "type": "GET",
+                    "datatype": "json"
+                },
+                "columns": [
+                    { "data": "LeaveId", "name": "AttendanceId" },
+                    { "data": "UserId", "name": "UserId" },
+                    { "data": "FromDate", "name": "Date" },
+                    { "data": "ToDate", "name": "FromTime" },
+                    { "data": "Aprrove", "name": "ToTime" },
+                    { "data": "Reason", "name": "IsApproved" },
+                    {"data":null}
+                ],
+                "aoColumnDefs": [
+                    {
+                        "aTargets": [4],
+                        "mRender": function (data, type, full) {
+                            if (full.ApprovedBy == true) {
+                                return "Approved";
+                            }
+                            else if (full.ApprovedBy == false) {
+                                return "Rejected" ;
+                            }
+                            else {
+                                 return '<a href="/HR/Employee/ApproveLeave?LeaveId=' + full.LeaveId + '&EmpId=' + full.UserId + '">Approve it</a>';
+                            }
+                        }
+                    },
+                    {
+                        "aTargets": [-1],
+                        "mRender": function (data, type, full) {
+                            return '<a href="/HR/Employee/DeleteLeave?LeaveId=' + full.LeaveId + '"  class="btn btn-danger">Delete</a>';
+                        }
+                    }
+                ]
+            });
+         });
+
+    });
+</script>

@@ -1,0 +1,59 @@
+﻿<div class="modal fade" id="Holiday" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Add Holiday</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                @using (Html.BeginForm("UpdateUser", "Home"))
+                {
+                    <div class="form-group">
+                        <label for="uName" class="col-form-label">Holiday Name:</label>
+                        <input type="text" class="form-control" id="uName" name="uName">
+                    </div>
+                    <div class="form-group">
+                        <label for="uDate" class="col-form-label">Date:</label>
+                        <input type="date" class="form-control" id="uDate" name="uDate">
+                    </div>
+                    <div class="form-group">
+                        <label for="uDesc" class="col-form-label">Description:</label>
+                        <textarea type="text" class="form-control" id="uDesc" name="uDesc"></textarea>
+                    </div>
+                }
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button onclick="AddHoliday()" type="submit" class="btn btn-primary" data-dismiss="modal"> Update</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function AddHoliday() {
+        var fData = new FormData();
+        var uName = document.getElementById('uName').value;
+        var uDate = document.getElementById('uDate').value;
+        var uDesc = document.getElementById('uDesc').value;        
+
+        fData.append("uName", uName);
+        fData.append("uDate", uDate);
+        fData.append("uDesc", uDesc);                
+        $.ajax({
+            type: 'post',
+            url: '/Admin/Holiday/AddHoliday',
+            data: fData,
+            processData: false,
+            contentType: false,
+            success: function (e) {}
+        });
+    }
+    $('#exampleModal').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget)
+        var recipient = button.data('whatever')
+        var modal = $(this)
+        $("#uUserId").val(recipient);
+    });
+</script>
