@@ -19,7 +19,7 @@ namespace AttendanceMgmt.ViewModels
         public string ToDate { get; set; }
 
       
-        public bool IsApproved { get; set; }
+        public bool? IsApproved { get; set; }
 
        
         public string ApprovedBy { get; set; }

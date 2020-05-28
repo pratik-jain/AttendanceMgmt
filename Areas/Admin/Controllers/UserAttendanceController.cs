@@ -140,7 +140,7 @@ namespace AttendanceMgmt.Areas.Admin.Controllers
                 }
                 context.SaveChanges();
 
-                return RedirectToAction("UserLeave", "UserAttendance", new { Area = "Admin", EmpId = UserId });
+                return RedirectToAction("UserLeave", "UserAttendance", new { Area = "Admin", UserId = UserId });
             }
         }
 

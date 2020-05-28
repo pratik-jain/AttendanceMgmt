@@ -64,13 +64,13 @@
                         "aTargets": [-3],
                         "mRender": function (data, type, full) {
                             if (data == true) {
-                                return "Approved ";
+                                return "Approved by "+ full.ApprovedBy;
                             }
                             else if (data == false) {
-                                return "Rejected";
+                                return "Rejected by"+ full.ApprovedBy;
                             }
                             else {
-                                 return '<a href="/Admin/UserAttendance/ApproveLeave?LeaveId=' + full.LeaveId + '&UserId=' + full.UserId + '">Approve it</a>$nbsp;/<a href="/Admin/UserAttendance/RejectLeave?LeaveId=' + full.LeaveId + '&UserId=' + full.UserId + '">Reject it</a>';
+                                 return '<a href="/Admin/UserAttendance/ApproveLeave?LeaveId=' + full.LeaveId + '&UserId=' + full.UserId + '">Approve it</a>&nbsp;/<a href="/Admin/UserAttendance/RejectLeave?LeaveId=' + full.LeaveId + '&UserId=' + full.UserId + '">Reject it</a>';
                             }
                         }
                     },
@@ -108,10 +108,10 @@
                         "aTargets": [-3],
                          "mRender": function (data, type, full) {
                             if (data == true) {
-                                return "Approved ";
+                                return "Approved by"+ full.ApprovedBy;
                             }
                             else if (data == false) {
-                                return "Rejected";
+                                return "Rejected by"+ full.ApprovedBy;
                             }
                             else {
                                  return '<a href="/Admin/UserAttendance/ApproveLeave?LeaveId=' + full.LeaveId + '&UserId=' + full.UserId + '">Approve it</a>$nbsp;/<a href="/Admin/UserAttendance/RejectLeave?LeaveId=' + full.LeaveId + '&UserId=' + full.UserId + '">Reject it</a>';

@@ -64,7 +64,7 @@
                         "aTargets": [4],
                         "mRender": function (data, type, full) {
                             if (data == true) {
-                                return "Approved by";
+                                return "Approved by" + full.ApprovedBy;
                             }
                             else if (data == false) {
                                 console.log("s" + data + full.ApprovedBy);
@@ -109,10 +109,10 @@
                         "aTargets": [4],
                         "mRender": function (data, type, full) {
                             if (full.ApprovedBy == true) {
-                                return "Approved";
+                                return "Approved by" + full.ApprovedBy;
                             }
                             else if (full.ApprovedBy == false) {
-                                return "Rejected" ;
+                                return "Rejected by"+ full.ApprovedBy ;
                             }
                             else {
                                  return '<a href="/HR/Employee/ApproveLeave?LeaveId=' + full.LeaveId + '&EmpId=' + full.UserId + '">Approve it</a>';
